@@ -6,6 +6,26 @@ DISCLAIMER: THIS IS A PROOF OF CONCEPT ONLY. USE AT YOUR OWN RISK!
 
 The code in this project was compiled and linked against the esp_iot_sdk_v1.2.0. and also works with esp_iot_sdk_v0.9.3.
 
+# Arduino port
+
+Code was ported to can be build with [ESP8266 core for Arduino](https://github.com/esp8266/Arduino).
+
+Tested with version 2.4.RC2. Not very stable but it works.
+
+## Build
+
+You need to copy platform.local.txt to somwhere
+
+For Windows:
+
+C:\Documents and Settings\Alex\Local Settings\Arduino15\packages\esp8266\hardware\esp8266\2.3.0
+
+For macOS:
+
+/Users/aem/Library/Arduino15/packages/esp8266/hardware/esp8266/2.4.0-rc2
+
+
+
 SENDING
 --------
 
