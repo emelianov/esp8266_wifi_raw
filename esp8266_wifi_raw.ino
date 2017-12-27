@@ -1,5 +1,5 @@
 #define ets_uart_printf Serial.printf 
-
+#include <ESP8266WiFi.h>
 extern "C" {
  #include <lwip/netif.h>
  #include <lwip/pbuf.h>
@@ -41,7 +41,7 @@ void ICACHE_FLASH_ATTR send_packet(void *arg)
   wifi_set_channel(1);
 }
 
-void ICACHE_FLASH_ATTR my_recv_cb(struct RxPacket *pkt)
+void my_recv_cb(struct RxPacket *pkt)
 {
   static int counter = 0;
   uint16 len;
@@ -110,35 +110,40 @@ void ICACHE_FLASH_ATTR my_recv_cb(struct RxPacket *pkt)
 #define LED_BUILDING LED0
 
 void loop() {
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(100);                       // wait for 1/10 of second
-  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-  delay(100);                       // wait for 1/10 of second
+  //digitalWrite(D4, HIGH);   // turn the LED on (HIGH is the voltage level)
+  //delay(100);                       // wait for 1/10 of second
+  //digitalWrite(D4, LOW);    // turn the LED off by making the voltage LOW
+  //delay(100);                       // wait for 1/10 of second
+  send_packet(NULL);
+  delay(500);
 }
 
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(D4, OUTPUT);
   Serial.begin(74880);
 
-  wifi_set_opmode(STATION_MODE);
+  //wifi_set_opmode(STATION_MODE);
 
   // Note that it is impossible to see all packets
   // on all channels and physical modes
   // Select a phy 802.11 b/g/n etc. and a channel 
   // in order to receive packets.
   // Note: ESP8266 does not appear to support 5GHz.
-  wifi_set_channel(1);
+  wifi_set_channel(4);
 
-  wifi_set_phy_mode(PHY_MODE_11N); // PHY_MODE_11B | PHY_MODE_11G | PHY_MODE_11N
+  wifi_set_phy_mode(PHY_MODE_11G); // PHY_MODE_11B | PHY_MODE_11G | PHY_MODE_11N
+  //WiFi.mode(WIFI_STA);
+  //WiFi.begin("EW","iMpress6264");
   /* Note: it appears the channel might get reset to default (6)
      after a wifi_set_opmode call (maybe, we aren't sure
      if that's the case). Also, we got some watchdog resets once. */
   os_timer_disarm(&timer);
-  os_timer_setfn(&timer, send_packet, NULL);
-  os_timer_arm(&timer, 500, 1);
+  //os_timer_setfn(&timer, send_packet, NULL);
+  //os_timer_arm(&timer, 500, 1);
   wifi_raw_set_recv_cb(my_recv_cb);
 
   ets_uart_printf("Init done\n");
+  delay(5000);
 }
 

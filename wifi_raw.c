@@ -47,7 +47,7 @@ void __wrap_ppEnqueueRxq(void *a)
 /* Warning: this is an experiment, and relies
    on undocumented library calls. Might not work as expected,
    and not guaranteed to work in any other sdk version... */
-void ICACHE_FLASH_ATTR __wrap_ppTxPkt(void *buf, uint16_t len)
+void __wrap_ppTxPkt(void *buf, uint16_t len)
 {
 	static int level = 0;
 	static void *upper_buf;
